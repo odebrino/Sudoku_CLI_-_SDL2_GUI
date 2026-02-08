@@ -83,8 +83,8 @@ static int cell_at(int x,int y){
 // open_menu(): helper function.
 static void open_menu(App* A){ A->mode=GUI_MENU; A->menu_sel=2; }
 
-// start_game(): helper function.
-static void start_game(App* A, int k){
+// gui_start_game(): helper function.
+void gui_start_game(App* A, int k){
     Grid g;
     if(!generator_new_k(k, &g)){
         gui_show_message(A, "Generation failed", 0);
@@ -147,7 +147,7 @@ void gui_handle_event(App* A, SDL_Event* e){
                 else if(A->menu_sel==1) k=50;
                 else if(A->menu_sel==2) k=60;
                 else if(A->menu_sel==3) k=64;
-                start_game(A,k);
+                gui_start_game(A,k);
                 return;
             }
         }

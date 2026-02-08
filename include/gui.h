@@ -51,7 +51,7 @@ typedef struct {
 // UI helpers
 void gui_show_message(App* A, const char* msg, int ms);
 
-
+void gui_start_game(App* A, int k);
 int gui_init(App* A);
 void gui_shutdown(App* A);
 void gui_draw(App* A);

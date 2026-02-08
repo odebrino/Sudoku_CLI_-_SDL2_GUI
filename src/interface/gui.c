@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 // join_path(): helper function.
 static void join_path(char* out, size_t n, const char* dir, const char* rel){
@@ -48,6 +49,18 @@ static TTF_Font* load_font(App* A, int pts){
 
     A->font_path[0] = '\0';
     return NULL;
+}
+
+// env_int(): helper function.
+static int env_int(const char* name, int def, int min, int max){
+    const char* v = getenv(name);
+    if(!v || !*v) return def;
+    char* end = NULL;
+    long val = strtol(v, &end, 10);
+    if(end == v || *end != '\0') return def;
+    if(val < min) val = min;
+    if(val > max) val = max;
+    return (int)val;
 }
 
 // save_screenshot(): helper function.
@@ -113,6 +126,14 @@ int run_gui(void){
     App A;
     if(gui_init(&A)!=0) return 1;
     SDL_Event e;
+    if(A.screenshot_path[0]){
+        const char* mode = getenv("GUI_SCREENSHOT_MODE");
+        if(mode && strcmp(mode, "game")==0){
+            int k = env_int("GUI_SCREENSHOT_K", 50, 0, 60);
+            gui_start_game(&A, k);
+        }
+    }
+
     while(A.running){
         while(SDL_PollEvent(&e)){
             gui_handle_event(&A, &e);

@@ -11,7 +11,8 @@ echo "== Build GUI =="
 make -C "$ROOT" gui
 
 echo "== Capture GUI screenshot =="
-GUI_SCREENSHOT="$TMP" xvfb-run -a "$ROOT/build/sudoku_gui" || true
+SEED=123 GUI_SCREENSHOT="$TMP" GUI_SCREENSHOT_MODE=game GUI_SCREENSHOT_K=50 \
+  xvfb-run -a "$ROOT/build/sudoku_gui" || true
 
 python3 - <<PY
 from PIL import Image
