@@ -14,6 +14,7 @@ Build a complete Sudoku application in C with: (a) a textual CLI; (b) a SDL2 GUI
   ```bash
   ./build/sudoku_cli --generate 40 > k40.txt
   ./build/sudoku_cli --solve k40.txt --solver mrv
+  SEED=123 ./build/sudoku_cli --generate 40 > k40_seeded.txt
   ```
 - GUI: `./build/sudoku_gui` → new game, enter digits, press **H** (hint), **S** (solve), **K** (save), **L** (load), **B** (trace/step).
 - Validation sheet: see *INTEGRATION_VALIDATION.md* (English & French).

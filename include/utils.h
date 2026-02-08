@@ -23,4 +23,8 @@ int  grid_find_next_empty(const Grid* g, int* rr, int* cc);
 void grid_print(const Grid* g, FILE* out);
 int  grid_equals(const Grid* a, const Grid* b);
 
+// RNG helpers (optional deterministic seeding).
+void rng_seed(unsigned int seed);
+void rng_seed_from_env(void);
+
 #endif

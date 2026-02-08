@@ -59,4 +59,6 @@ done
 - Makefile avec `cli`, `gui`, `bench` (optionnel).
 
 ## 9) Reproductibilité
-- Option : graine RNG fixe (ex. `SEED=123`) pour tests.
+- Option : graine RNG fixe via env ou CLI.
+  - `SEED=123 ./build/sudoku_cli --generate 40 > k40.txt`
+  - `./build/sudoku_cli --generate 40 --seed 123 > k40.txt`

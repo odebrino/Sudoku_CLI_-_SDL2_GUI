@@ -34,7 +34,7 @@ void generator_full_solution(Grid* out){
 // generator_new_k(): helper function.
 int generator_new_k(int k, Grid* out){
     if (k < 0) { k = 0; }
-    else if (k > 60) { k = 60; }
+    else if (k > 80) { k = 80; }
     Grid sol; generator_full_solution(&sol);
     Grid puzzle=sol;
 

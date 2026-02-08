@@ -238,6 +238,37 @@ static int search(void) {
     return 0;
 }
 
+// search_count(): helper function.
+static int search_count(int limit, int* count) {
+    if (header.R == &header) {
+        (*count)++;
+        return (*count >= limit);
+    }
+    Node *c = choose_column_minS();
+    if (c->S <= 0) return 0;
+
+    cover(c);
+    for (Node *r = c->D; r != c; r = r->D) {
+        solution[sol_depth++] = r;
+
+        for (Node *j = r->R; j != r; j = j->R) cover(j->C);
+
+        if (search_count(limit, count)) {
+            for (Node *j = r->L; j != r; j = j->L) uncover(j->C);
+            solution[sol_depth-1] = NULL;
+            sol_depth--;
+            uncover(c);
+            return 1;
+        }
+
+        for (Node *j = r->L; j != r; j = j->L) uncover(j->C);
+        solution[sol_depth-1] = NULL;
+        sol_depth--;
+    }
+    uncover(c);
+    return 0;
+}
+
 // Map chosen rows back to the grid
 // write_solution(): helper function.
 static void write_solution(int grid[N][N]) {
@@ -276,40 +307,17 @@ int solve_dlx(Grid* g) {
 }
 
 
-// Count solutions using DLX by exploring all exact covers (with early cap at e.g. 2)
-
-
-/* Simple DLX-based solution counter: returns 1 if solvable, 0 otherwise.
-   NOTE: Proper multi-solution counting would require enumerating multiple solutions in DLX.
-*/
-
-
-/* DLX-based solution counter (approx): tries to detect >1 solution by
-   finding one DLX solution, then attempting to force a different value
-   in one originally-empty cell and solving again.
-   Returns: 0 if unsolvable, 1 if exactly one found (approx), 2 if a second
-   solution is detected (early stop). */
+// Count solutions using DLX by exploring all exact covers (with early cap).
 // count_solutions_dlx(): helper function.
 int count_solutions_dlx(const Grid* g, int limit){
     if(!g || limit<=0) return 0;
-    Grid solved_grid = *g;
-    if(!solve_dlx(&solved_grid)) return 0;
-    if(limit==1) return 1;
-    // Try to find a different solution by flipping one empty cell to a different value
-    // from the first solution.
-    for(int r=0;r<9;r++){
-        for(int c=0;c<9;c++){
-            if(g->v[r][c]!=0) continue; // only cells that were empty
-            int v=solved_grid.v[r][c];
-            for(int alt=1; alt<=9; alt++){
-                if(alt==v) continue;
-                Grid trial = *g;
-                trial.v[r][c]=alt;
-                if(solve_dlx(&trial)){
-                    return 2; // found another solution
-                }
-            }
-        }
-    }
-    return 1;
+    int tmp[9][9];
+    for(int r=0;r<9;r++) for(int c=0;c<9;c++) tmp[r][c]=g->v[r][c];
+
+    build_structure_from_grid(tmp);
+    if(!apply_givens(tmp)) return 0;
+
+    int count = 0;
+    (void)search_count(limit, &count);
+    return count;
 }

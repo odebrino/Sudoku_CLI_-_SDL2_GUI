@@ -38,9 +38,8 @@ static void line(SDL_Renderer* ren, int x1,int y1,int x2,int y2, SDL_Color c){
 static void blit_text_sz(App* A, const char* txt, int x, int y, SDL_Color c, int pts){
     TTF_Font* f = A->font;
     TTF_Font* alt = NULL;
-    if(pts>0){
-        alt = TTF_OpenFontIndex("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", pts, 0);
-        if(!alt) alt = TTF_OpenFont("DejaVuSans.ttf", pts);
+    if(pts>0 && A->font_path[0]){
+        alt = TTF_OpenFontIndex(A->font_path, pts, 0);
         if(alt) f = alt;
     }
     SDL_Surface* surf = TTF_RenderUTF8_Blended(f, txt, c);

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include "utils.h"
 #include "generator.h"
@@ -45,6 +46,17 @@ static int read_grid_file(const char* path, Grid* g){
     return (r==N && c==0);
 }
 
+// parse_seed_arg(): helper function.
+static int parse_seed_arg(const char* s, unsigned int* out){
+    if(!s || !out) return 0;
+    char* end = NULL;
+    errno = 0;
+    unsigned long val = strtoul(s, &end, 10);
+    if(errno != 0 || end == s || *end != '\0') return 0;
+    *out = (unsigned int)val;
+    return 1;
+}
+
 // solver_from_name(): helper function.
 static int solver_from_name(const char* name, SolverKind* out){
     if(!name || !out) return 0;
@@ -84,6 +96,7 @@ static void usage(const char* prog){
         "  %s --generate <k>        # gera um puzzle com k buracos e imprime\n"
         "  %s --solve <file|->      # resolve puzzle do arquivo (ou '-' = stdin)\n"
         "     [--solver auto|dlx|bt|mrv|cp]\n"
+        "     [--seed <n>]\n"
         "  %s                        # gera k=40, resolve e imprime\n",
         prog, prog, prog);
 }
@@ -93,6 +106,8 @@ int main(int argc, char** argv){
     const char* solve_path = NULL;
     int k = -1;
     SolverKind solver = SOLVER_AUTO;
+    int seed_set = 0;
+    unsigned int seed = 0;
 
     for(int i=1;i<argc;i++){
         if(strcmp(argv[i],"--generate")==0 && i+1<argc){
@@ -104,6 +119,12 @@ int main(int argc, char** argv){
                 fprintf(stderr,"Unknown solver. Use: auto|dlx|bt|mrv|cp\n");
                 return 1;
             }
+        }else if(strcmp(argv[i],"--seed")==0 && i+1<argc){
+            if(!parse_seed_arg(argv[++i], &seed)){
+                fprintf(stderr,"Invalid seed. Use a positive integer.\n");
+                return 1;
+            }
+            seed_set = 1;
         }else if(strcmp(argv[i],"--help")==0 || strcmp(argv[i],"-h")==0){
             usage(argv[0]);
             return 0;
@@ -112,6 +133,9 @@ int main(int argc, char** argv){
             return 1;
         }
     }
+
+    if(seed_set) rng_seed(seed);
+    else rng_seed_from_env();
 
     if(k >= 0){
         if(k<0 || k>80){ fprintf(stderr,"k must be 0..80\n"); return 1; }

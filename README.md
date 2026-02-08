@@ -12,6 +12,7 @@ and a generator that enforces uniqueness.
 - C compiler with C11 support and `make`.
 - SDL2 + SDL2_ttf (for GUI).
 - `pkg-config` (recommended for SDL2 flags).
+Note: the GUI bundles DejaVu Sans in `assets/fonts/` (see its license file).
 
 On Ubuntu/Debian:
 ```bash
@@ -40,6 +41,13 @@ BF_TRIALS=200 make test-bf   # heavy brute-force run
 ```
 `--solver` accepts: `auto`, `dlx`, `bt`, `mrv`, `cp`.
 
+## Reproducibility
+You can fix the RNG seed via env var or CLI:
+```bash
+SEED=123 ./build/sudoku_cli --generate 40 > k40.txt
+./build/sudoku_cli --generate 40 --seed 123 > k40.txt
+```
+
 ## GUI usage
 ```bash
 ./build/sudoku_gui
@@ -61,3 +69,9 @@ plots/              # generated charts
 
 ## CLion
 Open the folder as a Makefile project (CLion auto-detects `Makefile` targets).
+
+## Artifacts
+Generated plots/results are tracked for convenience. See `docs/ARTIFACTS.md`.
+
+## License
+MIT. See `LICENSE`.

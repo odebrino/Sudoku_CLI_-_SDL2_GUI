@@ -1,6 +1,54 @@
 // SDL2 GUI setup/teardown helpers.
 
 #include "gui.h"
+#include <string.h>
+#include <unistd.h>
+#include <stdio.h>
+
+// join_path(): helper function.
+static void join_path(char* out, size_t n, const char* dir, const char* rel){
+    if(!dir || !*dir){ snprintf(out, n, "%s", rel); return; }
+    size_t len = strlen(dir);
+    if(len > 0 && dir[len-1] == '/') snprintf(out, n, "%s%s", dir, rel);
+    else snprintf(out, n, "%s/%s", dir, rel);
+}
+
+// open_font_candidate(): helper function.
+static TTF_Font* open_font_candidate(App* A, const char* path, int pts){
+    TTF_Font* f = TTF_OpenFontIndex(path, pts, 0);
+    if(f){
+        snprintf(A->font_path, sizeof(A->font_path), "%s", path);
+        return f;
+    }
+    return NULL;
+}
+
+// load_font(): helper function.
+static TTF_Font* load_font(App* A, int pts){
+    char buf[512];
+
+    // 1) project-relative
+    TTF_Font* f = open_font_candidate(A, "assets/fonts/DejaVuSans.ttf", pts);
+    if(f) return f;
+
+    // 2) relative to executable
+    char* base = SDL_GetBasePath();
+    if(base){
+        join_path(buf, sizeof(buf), base, "../assets/fonts/DejaVuSans.ttf");
+        f = open_font_candidate(A, buf, pts);
+        SDL_free(base);
+        if(f) return f;
+    }
+
+    // 3) system fallback
+    f = open_font_candidate(A, "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", pts);
+    if(f) return f;
+    f = open_font_candidate(A, "DejaVuSans.ttf", pts);
+    if(f) return f;
+
+    A->font_path[0] = '\0';
+    return NULL;
+}
 
 // gui_init(): helper function.
 int gui_init(App* A){
@@ -8,8 +56,8 @@ int gui_init(App* A){
     if(TTF_Init()!=0) return -2;
     A->win = SDL_CreateWindow("Sudoku (GUI) • 🎲 Theme Violet", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 860, 0);
     A->ren = SDL_CreateRenderer(A->win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
-    A->font = TTF_OpenFontIndex("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20, 0);
-    if(!A->font) A->font = TTF_OpenFont("DejaVuSans.ttf", 20);
+    A->font = load_font(A, 20);
+    if(!A->font) return -3;
     A->running=1; A->cell=-1; A->show_conflicts=1;
     A->mode = GUI_MENU; A->menu_sel=2; A->custom_k=50;
     A->start_ticks = SDL_GetTicks();

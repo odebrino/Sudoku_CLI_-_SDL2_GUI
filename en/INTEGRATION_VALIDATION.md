@@ -73,4 +73,6 @@ echo "GUI: enter a few digits → K (save) → restart → L (load)"
 - Makefile with `cli`, `gui`, `bench` (optional) targets. 
 
 ## 9) Reproducibility
-- Optional: `SEED=123 make gui` or env var to fix RNG for tests.
+- Optional: fix RNG with env or CLI.
+  - `SEED=123 ./build/sudoku_cli --generate 40 > k40.txt`
+  - `./build/sudoku_cli --generate 40 --seed 123 > k40.txt`
