@@ -1,0 +1,117 @@
+# ---- Sudoku Project (DLX) ----
+CC      ?= cc
+CFLAGS  ?= -O2 -Wall -Wextra -Wshadow -pedantic -std=c11 -g
+INCLUDES = -Iinclude
+LIBS    = -lm
+BF_TRIALS ?= 20
+
+# SDL2 (optional GUI)
+SDL_CFLAGS := $(shell pkg-config --cflags sdl2 SDL2_ttf 2>/dev/null)
+SDL_LIBS   := $(shell pkg-config --libs sdl2 SDL2_ttf 2>/dev/null)
+CFLAGS += $(SDL_CFLAGS)
+LIBS   += $(SDL_LIBS)
+
+BINDIR  := build
+OBJDIR  := $(BINDIR)/obj
+
+# Common sources (utils + solvers + generator + interface helpers)
+SRC_COMMON = \
+    src/utils/grid.c \
+    src/utils/io.c \
+    src/utils/rand.c \
+    src/utils/trace.c \
+    src/solvers/rules.c \
+    src/solvers/backtracking.c \
+    src/solvers/backtracking_mrv_bitmask.c \
+    src/solvers/constrain_propagation.c \
+    src/solvers/dlx.c \
+    src/solvers/solver.c \
+    src/generator/generator.c \
+    src/interface/formatter.c \
+    src/interface/save.c
+
+SRC_GUI = \
+    src/interface/gui.c \
+    src/interface/gui_draw.c \
+    src/interface/gui_events.c \
+    src/interface/gui_solver.c \
+    src/interface/gui_main.c
+
+SRC_CLI = src/interface/cli.c
+SRC_BENCH = src/benchmark/benchmark.c
+SRC_TEST_BASIC = src/tests/test_basic.c
+
+# Object list
+OBJS_COMMON := $(patsubst %.c,$(OBJDIR)/%.o,$(SRC_COMMON))
+OBJS_GUI    := $(patsubst %.c,$(OBJDIR)/%.o,$(SRC_GUI))
+OBJS_CLI    := $(patsubst %.c,$(OBJDIR)/%.o,$(SRC_CLI))
+OBJS_BENCH  := $(patsubst %.c,$(OBJDIR)/%.o,$(SRC_BENCH))
+OBJS_DATA   := $(patsubst %.c,$(OBJDIR)/%.o,$(SRC_DATASET))
+OBJS_TEST_BASIC := $(patsubst %.c,$(OBJDIR)/%.o,$(SRC_TEST_BASIC))
+
+# Executables
+GUI_BIN   := $(BINDIR)/sudoku_gui
+CLI_BIN   := $(BINDIR)/sudoku_cli
+BENCH_BIN := $(BINDIR)/sudoku_bench
+DATA_BIN  := $(BINDIR)/gen_datasets
+TEST_BASIC_BIN := $(BINDIR)/test_basic
+
+.PHONY: all gui cli bench datasets bench-run clean test test-basic test-bf run
+
+all: gui cli bench
+
+# Build rules
+$(GUI_BIN): $(OBJS_COMMON) $(OBJS_GUI)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ $(LIBS) -o $@
+
+$(CLI_BIN): $(OBJS_COMMON) $(OBJS_CLI)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ $(LIBS) -o $@
+
+$(BENCH_BIN): $(OBJS_COMMON) $(OBJS_BENCH)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ $(LIBS) -o $@
+
+$(TEST_BASIC_BIN): $(OBJS_COMMON) $(OBJS_TEST_BASIC)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ $(LIBS) -o $@
+
+$(DATA_BIN): $(OBJS_COMMON) $(OBJS_DATA)
+	@mkdir -p $(BINDIR)
+	$(CC) $^ $(LIBS) -o $@
+
+# Pattern rule for compiling C files to object files
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+gui: $(GUI_BIN)
+cli: $(CLI_BIN)
+bench: $(BENCH_BIN)
+test-basic: $(TEST_BASIC_BIN)
+	./$(TEST_BASIC_BIN)
+
+test-bf: build/bf_suite
+	BF_TRIALS=$(BF_TRIALS) ./build/bf_suite
+
+test: test-basic test-bf
+
+# Example benchmark run for multiple difficulties; expects data/grids/kXX_grids.txt
+bench-run: bench
+	@mkdir -p results
+	./$(BENCH_BIN) 30
+	./$(BENCH_BIN) 40
+	./$(BENCH_BIN) 50
+
+# 'make run' tries to run GUI if present
+run: gui
+	./$(GUI_BIN) || true
+
+clean:
+	@echo "[RM] Cleaning..."
+	@rm -rf $(BINDIR)
+
+
+# Extra build rules
+-include mk/extras.mk

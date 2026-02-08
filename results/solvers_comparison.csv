@@ -1,0 +1,17 @@
+k,solver,mean_ms
+30,DLX,0.007021
+30,Backtracking+MRV/bitmask,0.006413
+30,Backtracking,0.007665
+30,Constraint Propagation,0.008941
+40,DLX,0.009799
+40,Backtracking+MRV/bitmask,0.009525
+40,Backtracking,0.014067
+40,Constraint Propagation,0.014579
+50,DLX,0.013924
+50,Backtracking+MRV/bitmask,0.042582
+50,Backtracking,0.132787
+50,Constraint Propagation,0.030577
+60,DLX,0.023031
+60,Backtracking+MRV/bitmask,0.144684
+60,Backtracking,0.606275
+60,Constraint Propagation,0.048280
