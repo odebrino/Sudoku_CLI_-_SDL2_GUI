@@ -6,7 +6,7 @@
 
 // main(): helper function.
 int main(void){
-    Grid g; generator_new_k(50, &g);
+    Grid g; assert(generator_new_k(50, &g)==1);
     assert(grid_count_empty(&g)>=40); // rough check
     Grid g2=g; assert(count_solutions(&g2,2)==1);
     Grid s=g; assert(solver_solve(&s)==1);

@@ -20,7 +20,7 @@ Build a complete Sudoku application in C with: (a) a textual CLI; (b) a SDL2 GUI
 - Validation sheet: see *INTEGRATION_VALIDATION.md* (English & French).
 
 ## 3. Functional scope
-- CLI: generate N holes (k), load/solve/print, read from file/stdin, write to stdout, choose solver via `--solver`.
+- CLI: generate N holes (k in 0..60 for uniqueness), load/solve/print, read from file/stdin, write to stdout, choose solver via `--solver`.
 
 - GUI (SDL2): grid editing, keyboard entry, hint, step-by-step solve with trace, save/load JSON.
 

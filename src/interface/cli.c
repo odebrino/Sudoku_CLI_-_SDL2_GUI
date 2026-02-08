@@ -93,7 +93,7 @@ static int run_solver(SolverKind k, Grid* g){
 static void usage(const char* prog){
     fprintf(stderr,
         "Usage:\n"
-        "  %s --generate <k>        # gera um puzzle com k buracos e imprime\n"
+        "  %s --generate <k>        # gera um puzzle com k buracos (0..60) e imprime\n"
         "  %s --solve <file|->      # resolve puzzle do arquivo (ou '-' = stdin)\n"
         "     [--solver auto|dlx|bt|mrv|cp]\n"
         "     [--seed <n>]\n"
@@ -138,8 +138,11 @@ int main(int argc, char** argv){
     else rng_seed_from_env();
 
     if(k >= 0){
-        if(k<0 || k>80){ fprintf(stderr,"k must be 0..80\n"); return 1; }
-        generator_new_k(k, &g);
+        if(k<0 || k>60){ fprintf(stderr,"k must be 0..60\n"); return 1; }
+        if(!generator_new_k(k, &g)){
+            fprintf(stderr,"Failed to generate puzzle with k=%d\n", k);
+            return 2;
+        }
         print_grid(&g);
         return 0;
     }
@@ -163,7 +166,10 @@ int main(int argc, char** argv){
 
     // Default demo: generate k=40 and solve
     k = 40;
-    generator_new_k(k, &g);
+    if(!generator_new_k(k, &g)){
+        fprintf(stderr,"Failed to generate puzzle with k=%d\n", k);
+        return 2;
+    }
     printf("Generated grid (k=%d):\n", k);
     print_grid(&g);
     Grid w = g;

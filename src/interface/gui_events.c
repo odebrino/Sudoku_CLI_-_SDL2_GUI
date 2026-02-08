@@ -85,7 +85,12 @@ static void open_menu(App* A){ A->mode=GUI_MENU; A->menu_sel=2; }
 
 // start_game(): helper function.
 static void start_game(App* A, int k){
-    generator_new_k(k, &A->grid);
+    Grid g;
+    if(!generator_new_k(k, &g)){
+        gui_show_message(A, "Generation failed", 0);
+        return;
+    }
+    A->grid = g;
     A->mode = GUI_GAME;
     A->cell = -1;
     A->start_ticks = SDL_GetTicks();

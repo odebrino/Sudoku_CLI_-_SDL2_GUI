@@ -54,6 +54,7 @@ static TTF_Font* load_font(App* A, int pts){
 int gui_init(App* A){
     if(SDL_Init(SDL_INIT_VIDEO)!=0) return -1;
     if(TTF_Init()!=0) return -2;
+    rng_seed_from_env();
     A->win = SDL_CreateWindow("Sudoku (GUI) • 🎲 Theme Violet", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 860, 0);
     A->ren = SDL_CreateRenderer(A->win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
     A->font = load_font(A, 20);

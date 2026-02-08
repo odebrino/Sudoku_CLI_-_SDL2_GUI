@@ -1,4 +1,5 @@
 # Sudoku — CLI & GUI (C / SDL2)
+[![CI](https://github.com/odebrino/sudoku/actions/workflows/ci.yml/badge.svg)](https://github.com/odebrino/sudoku/actions/workflows/ci.yml)
 Complete Sudoku application in C with a CLI, SDL2 GUI, multiple solvers,
 and a generator that enforces uniqueness.
 
@@ -7,6 +8,10 @@ and a generator that enforces uniqueness.
 - SDL2 GUI with hint, trace, save/load, undo/redo.
 - Solvers: DLX (Algorithm X), backtracking, MRV + bitmask, constraint propagation.
 - Benchmark/plots tooling and datasets.
+
+## Screenshots
+![Solver comparison](plots/solvers_comparison.png)
+![Global ranking](plots/classement_global.png)
 
 ## Requirements
 - C compiler with C11 support and `make`.
@@ -40,6 +45,7 @@ BF_TRIALS=200 make test-bf   # heavy brute-force run
 ./build/sudoku_cli --solve - --solver dlx
 ```
 `--solver` accepts: `auto`, `dlx`, `bt`, `mrv`, `cp`.
+`--generate <k>` expects `k` in `0..60` for unique puzzles.
 
 ## Reproducibility
 You can fix the RNG seed via env var or CLI:

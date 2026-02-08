@@ -20,7 +20,7 @@ Réaliser une application Sudoku complète en C : (a) CLI texte ; (b) GUI SDL2 ;
 - Plan de validation : voir *INTEGRATION_VALIDATION.md* (EN & FR).
 
 ## 3. Périmètre fonctionnel
-- CLI : générer k trous, charger/résoudre/afficher, lire fichier/stdin, écrire stdout, choisir le solveur via `--solver`.
+- CLI : générer k trous (k dans 0..60 pour l’unicité), charger/résoudre/afficher, lire fichier/stdin, écrire stdout, choisir le solveur via `--solver`.
 
 - GUI (SDL2) : édition de la grille, saisie clavier, indice, résolution pas-à-pas avec trace, sauvegarde/chargement JSON.
 

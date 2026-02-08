@@ -19,6 +19,7 @@ make test
 ./build/sudoku_cli --solve k40.txt --solver dlx > solved.txt
 ./build/sudoku_cli --solve k40.txt --solver mrv > solved_mrv.txt
 ```
+**Note :** le générateur vise `k` dans `0..60` pour garantir l’unicité.
 **Vérifs :** grille valide (lignes/colonnes/boîtes), solution stable d’un run à l’autre, temps ≤ 1s pour k≤50 (indicatif).  
 Sélecteur de solveur : `--solver auto|dlx|bt|mrv|cp`.
 

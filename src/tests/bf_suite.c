@@ -120,7 +120,15 @@ int main(void){
         double s_dlx=0, s_mrv=0, s_bt=0, s_cp=0;
 
         for(int t=0;t<trials_per_k;t++){
-            Grid g; generator_new_k(k,&g);
+            Grid g;
+            int gen_fail = 0;
+            while(!generator_new_k(k,&g)){
+                gen_fail++;
+                if(gen_fail > 5){
+                    fprintf(stderr,"ERROR: generator failed for k=%d\n", k);
+                    return 4;
+                }
+            }
 
             int z = count_zeros(&g);
             if(z < k-5 || z > k+5)

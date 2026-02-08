@@ -1,17 +1,17 @@
 k,solver,mean_ms
-30,DLX,0.007641
-30,Backtracking+MRV/bitmask,0.006735
-30,Backtracking,0.007117
-30,Constraint Propagation,0.008619
-40,DLX,0.009704
-40,Backtracking+MRV/bitmask,0.009108
-40,Backtracking,0.012934
-40,Constraint Propagation,0.012565
-50,DLX,0.013912
-50,Backtracking+MRV/bitmask,0.015640
-50,Backtracking,0.043297
-50,Constraint Propagation,0.024974
-60,DLX,0.020051
-60,Backtracking+MRV/bitmask,0.082612
-60,Backtracking,0.290275
-60,Constraint Propagation,0.032568
+30,DLX,0.007558
+30,Backtracking+MRV/bitmask,0.005198
+30,Backtracking,0.006807
+30,Constraint Propagation,0.006795
+40,DLX,0.011492
+40,Backtracking+MRV/bitmask,0.009251
+40,Backtracking,0.014985
+40,Constraint Propagation,0.013816
+50,DLX,0.014520
+50,Backtracking+MRV/bitmask,0.015783
+50,Backtracking,0.043952
+50,Constraint Propagation,0.025511
+60,DLX,0.035119
+60,Backtracking+MRV/bitmask,0.431252
+60,Backtracking,1.873815
+60,Constraint Propagation,0.054574

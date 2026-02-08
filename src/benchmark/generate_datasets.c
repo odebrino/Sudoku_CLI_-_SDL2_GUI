@@ -33,7 +33,7 @@ static void ensure_dir(const char* path){
 
 // main(): helper function.
 int main(int argc, char** argv){ (void)argc; (void)argv;
-    int ks[] = {5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80};
+    int ks[] = {5,10,15,20,25,30,35,40,45,50,55,60};
   TR_INIT(NULL);
   TR_ENTER();
     int num = sizeof(ks)/sizeof(ks[0]);

@@ -33,28 +33,34 @@ void generator_full_solution(Grid* out){
 
 // generator_new_k(): helper function.
 int generator_new_k(int k, Grid* out){
-    if (k < 0) { k = 0; }
-    else if (k > 80) { k = 80; }
-    Grid sol; generator_full_solution(&sol);
-    Grid puzzle=sol;
+    if(!out) return 0;
+    if (k < 0 || k > 60) return 0;
 
-    int idx[81]; for(int i=0;i<81;i++) idx[i]=i;
-    rnd_shuffle_int(idx,81);
+    const int max_attempts = (k >= 55) ? 500 : 100;
+    for(int attempt=0; attempt<max_attempts; attempt++){
+        Grid sol; generator_full_solution(&sol);
+        Grid puzzle=sol;
 
-    int holes=0;
-    for(int i=0;i<81 && holes<k;i++){
-        int r=idx[i]/9, c=idx[i]%9;
-        int bak=puzzle.v[r][c];
-        if(bak==0) continue;
-        puzzle.v[r][c]=0; puzzle.fixed[r][c]=0;
-        Grid tmp=puzzle;
-        int cnt = count_solutions_dlx(&tmp, 2);
-        if(cnt!=1){ puzzle.v[r][c]=bak; puzzle.fixed[r][c]=1; }
-        else holes++;
+        int idx[81]; for(int i=0;i<81;i++) idx[i]=i;
+        rnd_shuffle_int(idx,81);
+
+        int holes=0;
+        for(int i=0;i<81 && holes<k;i++){
+            int r=idx[i]/9, c=idx[i]%9;
+            int bak=puzzle.v[r][c];
+            if(bak==0) continue;
+            puzzle.v[r][c]=0; puzzle.fixed[r][c]=0;
+            Grid tmp=puzzle;
+            int cnt = count_solutions_dlx(&tmp, 2);
+            if(cnt!=1){ puzzle.v[r][c]=bak; puzzle.fixed[r][c]=1; }
+            else holes++;
+        }
+        if(holes==k){
+            for(int r=0;r<9;r++) for(int c=0;c<9;c++)
+                puzzle.fixed[r][c] = (puzzle.v[r][c]!=0);
+            *out=puzzle;
+            return 1;
+        }
     }
-    for(int r=0;r<9;r++) for(int c=0;c<9;c++)
-        puzzle.fixed[r][c] = (puzzle.v[r][c]!=0);
-
-    *out=puzzle;
-    return 1;
+    return 0;
 }

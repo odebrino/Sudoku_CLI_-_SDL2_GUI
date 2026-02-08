@@ -22,6 +22,7 @@ make test
 ./build/sudoku_cli --solve k40.txt --solver mrv > solved_mrv.txt
 diff <(./build/sudoku_cli --solve k40.txt | tr -d '\n ') <(./build/sudoku_cli --solve k40.txt | tr -d '\n ')
 ```
+**Note:** the generator targets `k` in `0..60` to keep uniqueness guarantees.
 **Checks:**
 
 - Solved grid is valid (1–9 each row/col/box).
