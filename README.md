@@ -1,5 +1,4 @@
 # Sudoku — CLI & GUI (C / SDL2)
-[![CI](https://github.com/odebrino/sudoku/actions/workflows/ci.yml/badge.svg)](https://github.com/odebrino/sudoku/actions/workflows/ci.yml)
 Complete Sudoku application in C with a CLI, SDL2 GUI, multiple solvers,
 and a generator that enforces uniqueness.
 
@@ -78,9 +77,6 @@ plots/              # generated charts
 
 ## CLion
 Open the folder as a Makefile project (CLion auto-detects `Makefile` targets).
-
-## Artifacts
-Generated plots/results are tracked for convenience. See `docs/ARTIFACTS.md`.
 
 ## License
 MIT. See `LICENSE`.
