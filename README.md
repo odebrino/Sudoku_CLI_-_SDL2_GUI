@@ -10,6 +10,9 @@ and a generator that enforces uniqueness.
 - Benchmark/plots tooling and datasets.
 
 ## Screenshots
+![GUI](assets/screenshots/gui.png)
+
+## Benchmarks
 ![Solver comparison](plots/solvers_comparison.png)
 ![Global ranking](plots/classement_global.png)
 

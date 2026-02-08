@@ -18,7 +18,9 @@ typedef struct {
     SDL_Window* win;
     SDL_Renderer* ren;
     TTF_Font* font;
-    char font_path[256];
+    char font_path[512];
+    char screenshot_path[512];
+    int screenshot_done;
     int cell;              // selected cell 0..80, -1 = none
     Grid grid;
     int running;

@@ -50,6 +50,21 @@ static TTF_Font* load_font(App* A, int pts){
     return NULL;
 }
 
+// save_screenshot(): helper function.
+static int save_screenshot(App* A, const char* path){
+    int w=0, h=0;
+    if(SDL_GetRendererOutputSize(A->ren, &w, &h)!=0) return 0;
+    SDL_Surface* surf = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_ARGB8888);
+    if(!surf) return 0;
+    if(SDL_RenderReadPixels(A->ren, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch)!=0){
+        SDL_FreeSurface(surf);
+        return 0;
+    }
+    int ok = (SDL_SaveBMP(surf, path) == 0);
+    SDL_FreeSurface(surf);
+    return ok;
+}
+
 // gui_init(): helper function.
 int gui_init(App* A){
     if(SDL_Init(SDL_INIT_VIDEO)!=0) return -1;
@@ -57,8 +72,14 @@ int gui_init(App* A){
     rng_seed_from_env();
     A->win = SDL_CreateWindow("Sudoku (GUI) • 🎲 Theme Violet", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 860, 0);
     A->ren = SDL_CreateRenderer(A->win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+    A->screenshot_path[0] = '\0';
+    A->screenshot_done = 0;
     A->font = load_font(A, 20);
     if(!A->font) return -3;
+    {
+        const char* shot = getenv("GUI_SCREENSHOT");
+        if(shot && *shot) snprintf(A->screenshot_path, sizeof(A->screenshot_path), "%s", shot);
+    }
     A->running=1; A->cell=-1; A->show_conflicts=1;
     A->mode = GUI_MENU; A->menu_sel=2; A->custom_k=50;
     A->start_ticks = SDL_GetTicks();
@@ -97,6 +118,13 @@ int run_gui(void){
             gui_handle_event(&A, &e);
         }
         gui_draw(&A);
+        if(A.screenshot_path[0] && !A.screenshot_done){
+            if(!save_screenshot(&A, A.screenshot_path)){
+                fprintf(stderr, "Failed to save screenshot: %s\n", SDL_GetError());
+            }
+            A.screenshot_done = 1;
+            A.running = 0;
+        }
         SDL_Delay(16);
     }
     gui_shutdown(&A);
