@@ -1,6 +1,7 @@
 // Constraint propagation + backtracking solver (in-place on Grid).
 
 #include <stdint.h>
+#include <string.h>
 #include "solver.h"
 
 // ---------- Candidate bitmask (bits 1..9) ----------
@@ -30,8 +31,6 @@ static inline int can_place(int r, int c, int d) {
 static inline void place(int r, int c, int d) { grid[r][c] = d; }
 
 // unplace(): helper function.
-static inline void unplace(int r, int c) { grid[r][c] = 0; }
-
 // count_bits(): helper function.
 static inline int count_bits(uint16_t m) {
     int cnt = 0;
@@ -53,6 +52,7 @@ static int validate_initial_grid(void) {
         for (int c = 0; c < N; c++) {
             int v = grid[r][c];
             if (v == 0) continue;
+            if (v < 1 || v > 9) return 0;
             grid[r][c] = 0;
             if (!can_place(r, c, v)) {
                 grid[r][c] = v;
@@ -109,6 +109,7 @@ static int propagate(void) {
                     if (cnt == 0) return 0;
                     if (cnt == 1) {
                         int d = singleton_digit(m);
+                        if (!can_place(r, c, d)) return 0;
                         place(r, c, d);
                         progress = 1;
                     }
@@ -140,14 +141,17 @@ static int solve_recursive(void) {
     if (!pick_cell(&r, &c)) return 1; // Solved
 
     uint16_t m = candMask[r][c];
+    int snapshot[N][N];
+    memcpy(snapshot, grid, sizeof(grid));
     for (int d = 1; d <= 9; d++) {
         if (m & BIT(d)) {
+            memcpy(grid, snapshot, sizeof(grid));
             if (!can_place(r, c, d)) continue;
             place(r, c, d);
             if (solve_recursive()) return 1;
-            unplace(r, c);
         }
     }
+    memcpy(grid, snapshot, sizeof(grid));
     return 0;
 }
 

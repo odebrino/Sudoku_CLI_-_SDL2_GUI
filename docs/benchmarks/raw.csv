@@ -1,0 +1,321 @@
+k,trial,solver,elapsed_ms
+30,0,DLX,0.015683996
+30,0,Backtracking+MRV/bitmask,0.012361001
+30,0,Backtracking,0.030006006
+30,0,Constraint Propagation,0.013668003
+30,1,Backtracking+MRV/bitmask,0.011037999
+30,1,Backtracking,0.012755998
+30,1,Constraint Propagation,0.011859003
+30,1,DLX,0.015624995
+30,2,Backtracking,0.019053005
+30,2,Constraint Propagation,0.010583004
+30,2,DLX,0.015612997
+30,2,Backtracking+MRV/bitmask,0.011753000
+30,3,Constraint Propagation,0.010046999
+30,3,DLX,0.015470003
+30,3,Backtracking+MRV/bitmask,0.010795004
+30,3,Backtracking,0.011680000
+30,4,DLX,0.015024001
+30,4,Backtracking+MRV/bitmask,0.010980999
+30,4,Backtracking,0.014311998
+30,4,Constraint Propagation,0.011682998
+30,5,Backtracking+MRV/bitmask,0.010474003
+30,5,Backtracking,0.010267999
+30,5,Constraint Propagation,0.008978997
+30,5,DLX,0.014851001
+30,6,Backtracking,0.011520999
+30,6,Constraint Propagation,0.009561998
+30,6,DLX,0.014871999
+30,6,Backtracking+MRV/bitmask,0.011155003
+30,7,Constraint Propagation,0.008442003
+30,7,DLX,0.014293000
+30,7,Backtracking+MRV/bitmask,0.010276002
+30,7,Backtracking,0.010434997
+30,8,DLX,0.013741002
+30,8,Backtracking+MRV/bitmask,0.010395997
+30,8,Backtracking,0.012876000
+30,8,Constraint Propagation,0.008541996
+30,9,Backtracking+MRV/bitmask,0.011603996
+30,9,Backtracking,0.014258003
+30,9,Constraint Propagation,0.010470001
+30,9,DLX,0.015997000
+30,10,Backtracking,0.013507000
+30,10,Constraint Propagation,0.012309996
+30,10,DLX,0.018368002
+30,10,Backtracking+MRV/bitmask,0.012640994
+30,11,Constraint Propagation,0.010299002
+30,11,DLX,0.017184000
+30,11,Backtracking+MRV/bitmask,0.013233002
+30,11,Backtracking,0.012575998
+30,12,DLX,0.018146995
+30,12,Backtracking+MRV/bitmask,0.012552002
+30,12,Backtracking,0.012154000
+30,12,Constraint Propagation,0.010871998
+30,13,Backtracking+MRV/bitmask,0.012575001
+30,13,Backtracking,0.016040001
+30,13,Constraint Propagation,0.010248004
+30,13,DLX,0.066656001
+30,14,Backtracking,0.014145000
+30,14,Constraint Propagation,0.009529002
+30,14,DLX,0.012106997
+30,14,Backtracking+MRV/bitmask,0.008424002
+30,15,Constraint Propagation,0.006873001
+30,15,DLX,0.011707001
+30,15,Backtracking+MRV/bitmask,0.008092997
+30,15,Backtracking,0.010165000
+30,16,DLX,0.011202006
+30,16,Backtracking+MRV/bitmask,0.007583003
+30,16,Backtracking,0.007670998
+30,16,Constraint Propagation,0.007207003
+30,17,Backtracking+MRV/bitmask,0.007841998
+30,17,Backtracking,0.009370997
+30,17,Constraint Propagation,0.007060000
+30,17,DLX,0.014220001
+30,18,Backtracking,0.008747003
+30,18,Constraint Propagation,0.006545000
+30,18,DLX,0.013043005
+30,18,Backtracking+MRV/bitmask,0.008949006
+30,19,Constraint Propagation,0.007636998
+30,19,DLX,0.013436998
+30,19,Backtracking+MRV/bitmask,0.008776995
+30,19,Backtracking,0.010635005
+40,0,DLX,0.019137005
+40,0,Backtracking+MRV/bitmask,0.014835998
+40,0,Backtracking,0.033368997
+40,0,Constraint Propagation,0.015930003
+40,1,Backtracking+MRV/bitmask,0.016067999
+40,1,Backtracking,0.039956001
+40,1,Constraint Propagation,0.014167003
+40,1,DLX,0.026225003
+40,2,Backtracking,0.019065999
+40,2,Constraint Propagation,0.012199002
+40,2,DLX,0.023781002
+40,2,Backtracking+MRV/bitmask,0.017272003
+40,3,Constraint Propagation,0.016168000
+40,3,DLX,0.024973000
+40,3,Backtracking+MRV/bitmask,0.021358996
+40,3,Backtracking,0.026059002
+40,4,DLX,0.026804999
+40,4,Backtracking+MRV/bitmask,0.020924002
+40,4,Backtracking,0.029511997
+40,4,Constraint Propagation,0.018974999
+40,5,Backtracking+MRV/bitmask,0.020200001
+40,5,Backtracking,0.018874998
+40,5,Constraint Propagation,0.016193000
+40,5,DLX,0.028953997
+40,6,Backtracking,0.029246003
+40,6,Constraint Propagation,0.015280006
+40,6,DLX,0.024941000
+40,6,Backtracking+MRV/bitmask,0.017582002
+40,7,Constraint Propagation,0.015607002
+40,7,DLX,0.023982000
+40,7,Backtracking+MRV/bitmask,0.018651001
+40,7,Backtracking,0.028189002
+40,8,DLX,0.020270003
+40,8,Backtracking+MRV/bitmask,0.014966005
+40,8,Backtracking,0.021547996
+40,8,Constraint Propagation,0.015877005
+40,9,Backtracking+MRV/bitmask,0.014025005
+40,9,Backtracking,0.016364000
+40,9,Constraint Propagation,0.011288001
+40,9,DLX,0.020161002
+40,10,Backtracking,0.024312998
+40,10,Constraint Propagation,0.013753001
+40,10,DLX,0.020525003
+40,10,Backtracking+MRV/bitmask,0.013520999
+40,11,Constraint Propagation,0.010781005
+40,11,DLX,0.016063001
+40,11,Backtracking+MRV/bitmask,0.012238001
+40,11,Backtracking,0.016019003
+40,12,DLX,0.014801000
+40,12,Backtracking+MRV/bitmask,0.011486001
+40,12,Backtracking,0.023371002
+40,12,Constraint Propagation,0.010304000
+40,13,Backtracking+MRV/bitmask,0.010037998
+40,13,Backtracking,0.014311001
+40,13,Constraint Propagation,0.008994000
+40,13,DLX,0.014404002
+40,14,Backtracking,0.016405997
+40,14,Constraint Propagation,0.009370000
+40,14,DLX,0.013298006
+40,14,Backtracking+MRV/bitmask,0.009691001
+40,15,Constraint Propagation,0.009254996
+40,15,DLX,0.013322002
+40,15,Backtracking+MRV/bitmask,0.010051001
+40,15,Backtracking,0.012279001
+40,16,DLX,0.012443998
+40,16,Backtracking+MRV/bitmask,0.009320000
+40,16,Backtracking,0.011526994
+40,16,Constraint Propagation,0.009262003
+40,17,Backtracking+MRV/bitmask,0.009467003
+40,17,Backtracking,0.011279000
+40,17,Constraint Propagation,0.008031995
+40,17,DLX,0.013591998
+40,18,Backtracking,0.016178994
+40,18,Constraint Propagation,0.008659001
+40,18,DLX,0.013615994
+40,18,Backtracking+MRV/bitmask,0.009777003
+40,19,Constraint Propagation,0.007798997
+40,19,DLX,0.012962999
+40,19,Backtracking+MRV/bitmask,0.009310999
+40,19,Backtracking,0.014183002
+50,0,DLX,0.017774997
+50,0,Backtracking+MRV/bitmask,0.018145001
+50,0,Backtracking,0.056798999
+50,0,Constraint Propagation,0.021013999
+50,1,Backtracking+MRV/bitmask,0.021668995
+50,1,Backtracking,0.058371996
+50,1,Constraint Propagation,0.041988002
+50,1,DLX,0.018568004
+50,2,Backtracking,0.056909004
+50,2,Constraint Propagation,0.022914995
+50,2,DLX,0.020705003
+50,2,Backtracking+MRV/bitmask,0.014764999
+50,3,Constraint Propagation,0.015552003
+50,3,DLX,0.017386999
+50,3,Backtracking+MRV/bitmask,0.013563003
+50,3,Backtracking,0.040359999
+50,4,DLX,0.016806996
+50,4,Backtracking+MRV/bitmask,0.013600002
+50,4,Backtracking,0.041712003
+50,4,Constraint Propagation,0.016888996
+50,5,Backtracking+MRV/bitmask,0.013053999
+50,5,Backtracking,0.049369999
+50,5,Constraint Propagation,0.028708004
+50,5,DLX,0.019109000
+50,6,Backtracking,0.061157996
+50,6,Constraint Propagation,0.025113994
+50,6,DLX,0.019280000
+50,6,Backtracking+MRV/bitmask,0.019124003
+50,7,Constraint Propagation,0.013649995
+50,7,DLX,0.017878003
+50,7,Backtracking+MRV/bitmask,0.013687000
+50,7,Backtracking,0.036101999
+50,8,DLX,0.017440005
+50,8,Backtracking+MRV/bitmask,0.037033999
+50,8,Backtracking,0.116242998
+50,8,Constraint Propagation,0.071087001
+50,9,Backtracking+MRV/bitmask,0.016651997
+50,9,Backtracking,0.043441003
+50,9,Constraint Propagation,0.021063002
+50,9,DLX,0.019018000
+50,10,Backtracking,0.047189002
+50,10,Constraint Propagation,0.024251996
+50,10,DLX,0.017656996
+50,10,Backtracking+MRV/bitmask,0.019573003
+50,11,Constraint Propagation,0.014377001
+50,11,DLX,0.017380997
+50,11,Backtracking+MRV/bitmask,0.012918004
+50,11,Backtracking,0.023496003
+50,12,DLX,0.017951999
+50,12,Backtracking+MRV/bitmask,0.013322999
+50,12,Backtracking,0.034933997
+50,12,Constraint Propagation,0.034377001
+50,13,Backtracking+MRV/bitmask,0.013265999
+50,13,Backtracking,0.042648004
+50,13,Constraint Propagation,0.012290999
+50,13,DLX,0.021100001
+50,14,Backtracking,0.046715002
+50,14,Constraint Propagation,0.019737003
+50,14,DLX,0.018500999
+50,14,Backtracking+MRV/bitmask,0.015470003
+50,15,Constraint Propagation,0.014038000
+50,15,DLX,0.017805003
+50,15,Backtracking+MRV/bitmask,0.012977995
+50,15,Backtracking,0.029303999
+50,16,DLX,0.016833001
+50,16,Backtracking+MRV/bitmask,0.012735996
+50,16,Backtracking,0.029766001
+50,16,Constraint Propagation,0.012298005
+50,17,Backtracking+MRV/bitmask,0.012828001
+50,17,Backtracking,0.028672999
+50,17,Constraint Propagation,0.013753001
+50,17,DLX,0.018151004
+50,18,Backtracking,0.047547997
+50,18,Constraint Propagation,0.027179005
+50,18,DLX,0.018612001
+50,18,Backtracking+MRV/bitmask,0.018874001
+50,19,Constraint Propagation,0.025249996
+50,19,DLX,0.018055005
+50,19,Backtracking+MRV/bitmask,0.015997997
+50,19,Backtracking,0.052873998
+60,0,DLX,0.024957000
+60,0,Backtracking+MRV/bitmask,0.141764001
+60,0,Backtracking,0.488067002
+60,0,Constraint Propagation,6.542905001
+60,1,Backtracking+MRV/bitmask,1.417361003
+60,1,Backtracking,6.778605995
+60,1,Constraint Propagation,9.364812002
+60,1,DLX,0.028604001
+60,2,Backtracking,0.483424003
+60,2,Constraint Propagation,1.684303999
+60,2,DLX,0.028017996
+60,2,Backtracking+MRV/bitmask,0.103951003
+60,3,Constraint Propagation,0.174531997
+60,3,DLX,0.023856002
+60,3,Backtracking+MRV/bitmask,0.133784997
+60,3,Backtracking,0.434158996
+60,4,DLX,0.024358000
+60,4,Backtracking+MRV/bitmask,0.080291000
+60,4,Backtracking,0.302884997
+60,4,Constraint Propagation,0.345209999
+60,5,Backtracking+MRV/bitmask,0.791707003
+60,5,Backtracking,4.064123001
+60,5,Constraint Propagation,8.706132998
+60,5,DLX,0.027971000
+60,6,Backtracking,2.418425000
+60,6,Constraint Propagation,4.556303997
+60,6,DLX,0.028384995
+60,6,Backtracking+MRV/bitmask,0.459884999
+60,7,Constraint Propagation,5.315859999
+60,7,DLX,0.034561999
+60,7,Backtracking+MRV/bitmask,0.450673004
+60,7,Backtracking,2.058274004
+60,8,DLX,0.040281004
+60,8,Backtracking+MRV/bitmask,0.299688996
+60,8,Backtracking,1.098339002
+60,8,Constraint Propagation,0.406284998
+60,9,Backtracking+MRV/bitmask,0.162352000
+60,9,Backtracking,0.571165001
+60,9,Constraint Propagation,12.212741996
+60,9,DLX,0.028105002
+60,10,Backtracking,0.235833002
+60,10,Constraint Propagation,0.437470997
+60,10,DLX,0.027834001
+60,10,Backtracking+MRV/bitmask,0.062287996
+60,11,Constraint Propagation,1.952450999
+60,11,DLX,0.027123002
+60,11,Backtracking+MRV/bitmask,1.061153998
+60,11,Backtracking,4.411263006
+60,12,DLX,0.024790999
+60,12,Backtracking+MRV/bitmask,0.635188000
+60,12,Backtracking,2.296981002
+60,12,Constraint Propagation,7.290486996
+60,13,Backtracking+MRV/bitmask,0.088437999
+60,13,Backtracking,0.380024998
+60,13,Constraint Propagation,0.653287003
+60,13,DLX,0.028099996
+60,14,Backtracking,28.658910000
+60,14,Constraint Propagation,19.477706002
+60,14,DLX,0.030230003
+60,14,Backtracking+MRV/bitmask,7.038609001
+60,15,Constraint Propagation,2.478372000
+60,15,DLX,0.027551003
+60,15,Backtracking+MRV/bitmask,0.402689999
+60,15,Backtracking,1.719487002
+60,16,DLX,0.036726997
+60,16,Backtracking+MRV/bitmask,0.081927006
+60,16,Backtracking,0.286567003
+60,16,Constraint Propagation,0.173737004
+60,17,Backtracking+MRV/bitmask,0.098741002
+60,17,Backtracking,0.409815002
+60,17,Constraint Propagation,0.255927996
+60,17,DLX,0.027715003
+60,18,Backtracking,5.846923996
+60,18,Constraint Propagation,7.552467003
+60,18,DLX,0.070590999
+60,18,Backtracking+MRV/bitmask,1.432185003
+60,19,Constraint Propagation,1.634399996
+60,19,DLX,0.026433001
+60,19,Backtracking+MRV/bitmask,0.336660007
+60,19,Backtracking,1.309305000

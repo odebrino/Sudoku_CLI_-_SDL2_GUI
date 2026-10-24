@@ -1,0 +1,24 @@
+{
+  "seed": 123,
+  "trials_per_hole_count": 20,
+  "hole_counts": [
+    30,
+    40,
+    50,
+    60
+  ],
+  "compiler": "cc (GCC) 16.2.1 20260810",
+  "cflags": "-O2 -Wall -Wextra -Wshadow -pedantic -std=c11 -g",
+  "platform": "Linux-7.2.6-arch2-1-x86_64-with-glibc2.44",
+  "libc": [
+    "glibc",
+    "2.44"
+  ],
+  "cpu": "13th Gen Intel(R) Core(TM) i9-13900H",
+  "timer": "clock_gettime(CLOCK_MONOTONIC)",
+  "unit": "milliseconds",
+  "protocol": "One solve per solver and puzzle; rotating execution order; generation and validation excluded; all outputs complete, clue-preserving; each puzzle unique by capped DLX count.",
+  "rng": "C rand(); seed is repeatable within a libc implementation, not a cross-platform corpus identity.",
+  "corpus_sha256": "513e3ba6a2cd7f5082af08d1b76618a84727fa707600756060e150824c6270d6",
+  "revision_base": "47fae27fe461859621d04b2ceaea8b7ac5496e95"
+}

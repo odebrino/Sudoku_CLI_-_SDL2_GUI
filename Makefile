@@ -8,8 +8,6 @@ BF_TRIALS ?= 20
 # SDL2 (optional GUI)
 SDL_CFLAGS := $(shell pkg-config --cflags sdl2 SDL2_ttf 2>/dev/null)
 SDL_LIBS   := $(shell pkg-config --libs sdl2 SDL2_ttf 2>/dev/null)
-CFLAGS += $(SDL_CFLAGS)
-LIBS   += $(SDL_LIBS)
 
 BINDIR  := build
 OBJDIR  := $(BINDIR)/obj
@@ -61,9 +59,11 @@ TEST_BASIC_BIN := $(BINDIR)/test_basic
 all: gui cli bench
 
 # Build rules
+$(OBJS_GUI): CFLAGS += $(SDL_CFLAGS)
+
 $(GUI_BIN): $(OBJS_COMMON) $(OBJS_GUI)
 	@mkdir -p $(BINDIR)
-	$(CC) $^ $(LIBS) -o $@
+	$(CC) $^ $(LIBS) $(SDL_LIBS) -o $@
 
 $(CLI_BIN): $(OBJS_COMMON) $(OBJS_CLI)
 	@mkdir -p $(BINDIR)
@@ -93,7 +93,8 @@ test-basic: $(TEST_BASIC_BIN)
 	./$(TEST_BASIC_BIN)
 
 test-bf: build/bf_suite
-	BF_TRIALS=$(BF_TRIALS) ./build/bf_suite
+	@mkdir -p build/benchmarks
+	SEED=$${SEED:-123} BF_TRIALS=$(BF_TRIALS) ./build/bf_suite
 
 test: test-basic test-bf
 

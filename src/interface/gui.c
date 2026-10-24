@@ -80,15 +80,19 @@ static int save_screenshot(App* A, const char* path){
 
 // gui_init(): helper function.
 int gui_init(App* A){
+    memset(A, 0, sizeof(*A));
     if(SDL_Init(SDL_INIT_VIDEO)!=0) return -1;
     if(TTF_Init()!=0) return -2;
     rng_seed_from_env();
     A->win = SDL_CreateWindow("Sudoku (GUI) • 🎲 Theme Violet", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 860, 0);
+    if(!A->win){ gui_shutdown(A); return -3; }
     A->ren = SDL_CreateRenderer(A->win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+    if(!A->ren) A->ren = SDL_CreateRenderer(A->win, -1, SDL_RENDERER_SOFTWARE);
+    if(!A->ren){ gui_shutdown(A); return -4; }
     A->screenshot_path[0] = '\0';
     A->screenshot_done = 0;
     A->font = load_font(A, 20);
-    if(!A->font) return -3;
+    if(!A->font){ gui_shutdown(A); return -5; }
     {
         const char* shot = getenv("GUI_SCREENSHOT");
         if(shot && *shot) snprintf(A->screenshot_path, sizeof(A->screenshot_path), "%s", shot);
@@ -124,7 +128,8 @@ void gui_show_message(App* A, const char* msg, int ms){ (void)ms;
 int run_gui(void){
 
     App A;
-    if(gui_init(&A)!=0) return 1;
+    if(gui_init(&A)!=0){ fprintf(stderr,"GUI initialization failed: %s\n", SDL_GetError()); return 1; }
+    int screenshot_failed = 0;
     SDL_Event e;
     if(A.screenshot_path[0]){
         const char* mode = getenv("GUI_SCREENSHOT_MODE");
@@ -142,6 +147,7 @@ int run_gui(void){
         if(A.screenshot_path[0] && !A.screenshot_done){
             if(!save_screenshot(&A, A.screenshot_path)){
                 fprintf(stderr, "Failed to save screenshot: %s\n", SDL_GetError());
+                screenshot_failed = 1;
             }
             A.screenshot_done = 1;
             A.running = 0;
@@ -149,5 +155,5 @@ int run_gui(void){
         SDL_Delay(16);
     }
     gui_shutdown(&A);
-    return 0;
+    return screenshot_failed ? 1 : 0;
 }

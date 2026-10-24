@@ -1,18 +1,19 @@
-// Heavy brute-force validation & timing suite (interface-tolerant)
+#define _POSIX_C_SOURCE 200809L
+// Strict comparison: every solver must solve the same unique puzzle itself.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <sys/time.h>
+#include <time.h>
 
 #include "utils.h"
 #include "generator.h"
 #include "solver.h"
 
 static double now_s(void){
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return tv.tv_sec + tv.tv_usec*1e-6;
+    struct timespec ts;
+    if(clock_gettime(CLOCK_MONOTONIC, &ts)) { perror("clock_gettime"); exit(1); }
+    return ts.tv_sec + ts.tv_nsec * 1e-9;
 }
 
 // env_int(): helper function.
@@ -76,33 +77,19 @@ static int count_zeros(const Grid* g){
 static void csv_header(FILE* f){ fprintf(f,"k,solver,mean_ms\n"); }
 static void csv_row(FILE* f,int k,const char* s,double ms){ fprintf(f,"%d,%s,%.6f\n",k,s,ms); }
 
-// Chama um solver, mede tempo; se a grade nao estiver completa ao fim,
-// usamos DLX para finalizar só para validar consistência.
-static double time_solver_with_dlxfallback(const char* label,
-                                           int (*solver)(Grid*),
-                                           const Grid* in,
-                                           Grid* out)
-{
-    Grid w; grid_copy(in, &w);
+static double time_solver(const char* label, int (*solver)(Grid*), const Grid* in){
+    Grid w = *in;
     double t0 = now_s();
-    (void)solver(&w); // alguns solvers podem retornar void na prática
-    double t1 = now_s();
-
-    // Se o solver não modificou 'w' (ou não completou), finalize com DLX apenas p/ validação
-    if(!valid_complete_grid(&w)){
-        Grid w2; grid_copy(in, &w2);
-        int ok = solve_dlx(&w2);
-        if(!ok || !valid_complete_grid(&w2)){
-            fprintf(stderr, "%s (then DLX) failed\n", label);
-            exit(7);
-        }
-        // preserva a solução válida em 'out'
-        grid_copy(&w2, out);
-    } else {
-        grid_copy(&w, out);
+    int ok = solver(&w);
+    double ms = (now_s() - t0) * 1000.0;
+    if(!ok || !valid_complete_grid(&w)) {
+        fprintf(stderr, "%s failed to solve its puzzle\n", label); exit(7);
     }
-
-    return (t1 - t0) * 1000.0;
+    for(int r=0;r<N;r++) for(int c=0;c<N;c++)
+        if(in->v[r][c] && in->v[r][c] != w.v[r][c]) {
+            fprintf(stderr, "%s changed a clue\n", label); exit(8);
+        }
+    return ms;
 }
 
 int main(void){
@@ -111,9 +98,17 @@ int main(void){
     int trials_per_k = env_int("BF_TRIALS", 200);
     int max_solutions_to_count = 2;
 
-    FILE* csv = fopen("results/solvers_comparison.csv","w");
-    if(!csv){ perror("open results/solvers_comparison.csv"); return 1; }
+    rng_seed_from_env();
+    const char* output = getenv("BF_OUTPUT");
+    const char* raw_output = getenv("BF_RAW_OUTPUT");
+    const char* corpus_output = getenv("BF_CORPUS");
+    FILE* csv = fopen(output ? output : "build/benchmarks/summary.csv", "w");
+    FILE* raw = fopen(raw_output ? raw_output : "build/benchmarks/raw.csv", "w");
+    FILE* corpus = fopen(corpus_output ? corpus_output : "build/benchmarks/corpus.csv", "w");
+    if(!csv || !raw || !corpus) { perror("benchmark output"); return 1; }
     csv_header(csv);
+    fprintf(raw,"k,trial,solver,elapsed_ms\n");
+    fprintf(corpus,"k,trial,puzzle\n");
 
     for(int i=0;i<nK;i++){
         int k = ks[i];
@@ -131,8 +126,7 @@ int main(void){
             }
 
             int z = count_zeros(&g);
-            if(z < k-5 || z > k+5)
-                fprintf(stderr,"WARN: k=%d zeros=%d\n",k,z);
+            if(z != k) { fprintf(stderr,"Wrong hole count\n"); return 5; }
 
             int solc = count_solutions_dlx(&g, max_solutions_to_count);
             if(solc != 1){
@@ -140,26 +134,19 @@ int main(void){
                 return 2;
             }
 
-            Grid out;
-
-            // DLX (baseline, deve sempre completar)
-            {
-                Grid w; grid_copy(&g, &w);
-                double t0 = now_s();
-                int ok = solve_dlx(&w);
-                double t1 = now_s();
-                if(!ok || !valid_complete_grid(&w)){ fprintf(stderr,"DLX failed\n"); return 3; }
-                s_dlx += (t1 - t0)*1000.0;
+            fprintf(corpus,"%d,%d,",k,t);
+            for(int r=0;r<N;r++) for(int c=0;c<N;c++) fprintf(corpus,"%d",g.v[r][c]);
+            fprintf(corpus,"\n");
+            const char* labels[] = {"DLX", "Backtracking+MRV/bitmask", "Backtracking", "Constraint Propagation"};
+            int (*solvers[])(Grid*) = {solve_dlx, solve_backtracking_mrv_bitmask, solve_backtracking, solve_constraint_propagation};
+            double* sums[] = {&s_dlx, &s_mrv, &s_bt, &s_cp};
+            // Rotate execution order to reduce a fixed first-solver bias.
+            for(int j=0;j<4;j++) {
+                int ix=(j+t)%4;
+                double ms=time_solver(labels[ix],solvers[ix],&g);
+                *sums[ix] += ms;
+                fprintf(raw,"%d,%d,%s,%.9f\n",k,t,labels[ix],ms);
             }
-
-            // MRV + bitmask (tolerante: valida com DLX se não escrever no Grid)
-            s_mrv += time_solver_with_dlxfallback("MRV", solve_backtracking_mrv_bitmask, &g, &out);
-
-            // Backtracking (tolerante)
-            s_bt  += time_solver_with_dlxfallback("BT",  solve_backtracking, &g, &out);
-
-            // Constraint Propagation (já era tolerante)
-            s_cp  += time_solver_with_dlxfallback("CP",  solve_constraint_propagation, &g, &out);
         }
 
         csv_row(csv,k,"DLX",s_dlx/trials_per_k);
@@ -172,6 +159,7 @@ int main(void){
     }
 
     fclose(csv);
-    fprintf(stderr,"Wrote results/solvers_comparison.csv\n");
+    fclose(raw); fclose(corpus);
+    fprintf(stderr,"Wrote strict benchmark summary, raw timings and corpus\n");
     return 0;
 }
