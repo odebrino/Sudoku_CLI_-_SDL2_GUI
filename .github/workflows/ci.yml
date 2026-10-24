@@ -58,7 +58,7 @@ jobs:
           cp build/sudoku_cli LICENSE README.md build/release/sudoku-linux-x86_64/
           ./build/sudoku_cli --generate 40 --seed 123 > build/release/sudoku-linux-x86_64/example.txt
           tar -C build/release -czf build/sudoku-linux-x86_64.tar.gz sudoku-linux-x86_64
-          sha256sum build/sudoku-linux-x86_64.tar.gz > build/SHA256SUMS
+          (cd build && sha256sum sudoku-linux-x86_64.tar.gz > SHA256SUMS)
       - env:
           GH_TOKEN: ${{ github.token }}
         run: gh release create "$GITHUB_REF_NAME" build/sudoku-linux-x86_64.tar.gz build/SHA256SUMS --verify-tag --title "Sudoku CLI and SDL2 GUI $GITHUB_REF_NAME" --notes-file RELEASE_NOTES.md

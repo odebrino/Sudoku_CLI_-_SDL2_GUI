@@ -6,7 +6,7 @@ A C11 application comparing four Sudoku solvers through a shared grid API. The g
 
 ![Seeded SDL2 game, captured from this application](assets/screenshots/gui.png)
 
-Original project credits: **Rafael Ode Brino and Maria Eduarda Rizo**, retained from the MIT license. The release preparation adds strict solver validation, a constraint-propagation regression fix, reproducible benchmark records, and CLI/GUI CI. [Tagged releases](https://github.com/odebrino/Sudoku_CLI_-_SDL2_GUI/releases).
+**Author: Rafael Ode Brino.** The release preparation adds strict solver validation, a constraint-propagation regression fix, reproducible benchmark records, and CLI/GUI CI. [Tagged releases](https://github.com/odebrino/Sudoku_CLI_-_SDL2_GUI/releases).
 
 ## Try the CLI
 
@@ -67,4 +67,4 @@ These are local single-solve wall times, not a universal ranking. Generated puzz
 
 ## License
 
-Code: [MIT](LICENSE), with the original contributors credited. The bundled DejaVu Sans font retains its [separate license](assets/fonts/DejaVuSans-LICENSE.txt). The Linux release archive contains the CLI; build the GUI from tagged source with the SDL2 dependencies above.
+Original code: [MIT](LICENSE), copyright Rafael Ode Brino. The bundled DejaVu Sans font retains its [separate license](assets/fonts/DejaVuSans-LICENSE.txt). The Linux release archive contains the CLI; build the GUI from tagged source with the SDL2 dependencies above.

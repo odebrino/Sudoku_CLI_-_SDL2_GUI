@@ -4,4 +4,4 @@ The Linux x86_64 CLI archive is built on Ubuntu 24.04 (glibc 2.39 baseline). Ext
 
 This release fixes constraint-propagation branch restoration and removes a benchmark fallback that could hide solver failures. Existing historical timing plots are not comparable verification evidence for this release. New raw timings and the exact generated corpus are supplied in `docs/benchmarks/`.
 
-Original MIT credits to Rafael Ode Brino and Maria Eduarda Rizo are retained. The bundled DejaVu font has its own license.
+The project author and original-code copyright holder is Rafael Ode Brino. Version 0.1.1 corrects the earlier attribution following his confirmation of sole authorship. The bundled DejaVu font has its own license.
